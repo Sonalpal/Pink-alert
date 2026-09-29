@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const FAQ_DATA = [
   {
-    question: 'Is SafeHer India free to use?',
+    question: 'Is pinkALERT India free to use?',
     answer: 'Yes! Our Basic Haven plan is completely free. You get access to the safety map, standard SOS alerts, and up to 2 guardians at no cost.',
   },
   {
@@ -18,8 +18,8 @@ const FAQ_DATA = [
     answer: 'Premium and Annual plan users can download offline maps for their region. The SOS feature can also send an SMS alert as a fallback when internet is unavailable.',
   },
   {
-    question: 'How is SafeHer India different from other safety apps?',
-    answer: 'SafeHer India is built specifically for Indian women with India-specific data — crowdsourced safety ratings for Indian neighborhoods, integration with 112, and a UI designed for quick one-hand use in stressful situations.',
+    question: 'How is pinkALERT India different from other safety apps?',
+    answer: 'pinkALERT is built specifically for Indian women with India-specific data — crowdsourced safety ratings for Indian neighborhoods, integration with 112, and a UI designed for quick one-hand use in stressful situations.',
   },
   {
     question: 'Is my personal data safe?',

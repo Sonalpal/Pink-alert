@@ -23,7 +23,7 @@ export default function SOSPage() {
           setGuardians(guardianRes.data.map(g => ({
             id: g._id,
             name: g.name,
-            initial: g.name[0]?.toUpperCase(),
+            initial: g.name?.[0]?.toUpperCase() || '?',
             color: 'bg-[#8B4A6A]',
             status: g.verified ? 'Active ✓' : 'Pending',
             statusColor: g.verified ? 'text-green-600 border-green-500' : 'text-yellow-600 border-yellow-500'

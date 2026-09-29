@@ -16,7 +16,7 @@ try {
   console.log('src/server.js failed to load, running root index.js instead');
 }
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Fallback server running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Fallback server running on port ${PORT}`);
+// });

@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { errorHandler } = require('./middleware/errorHandler');
+const connectDB = require("./config/db")
 
 // Route imports
 const authRoutes = require('./routes/authRoutes');
@@ -13,6 +14,11 @@ const sosRoutes = require('./routes/sosRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 
 const app = express();
+
+
+console.log(process.env.MONGO_URI);
+
+connectDB();
 
 // IMMEDIATELY DEFINE ROOT ROUTE FOR TESTING
 app.get('/', (req, res) => {
@@ -73,11 +79,11 @@ app.listen(PORT, () => {
 });
 
 // Database Connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('MongoDB connected successfully');
-  })
-  .catch((err) => {
-    console.error('Database connection failed:', err.message);
-    // Don't exit process, let the server run so we can see errors in logs
-  });
+// mongoose.connect(process.env.MONGO_URI)
+//   .then(() => {
+//     console.log('MongoDB connected successfully');
+//   })
+//   .catch((err) => {
+//     console.error('Database connection failed:', err.message);
+//     // Don't exit process, let the server run so we can see errors in logs
+//   });
