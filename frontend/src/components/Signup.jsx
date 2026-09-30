@@ -94,8 +94,9 @@ const Signup = () => {
         const data = await authAPI.register(formData);
         
         if (data.success) {
-          localStorage.setItem('authToken', data.data.token);
-          navigate('/dashboard');
+          navigate('/verify-email', {
+  state: { email: formData.email, resendNow: data.data?.emailSent === false }
+});
         } else {
           setErrors({ submit: data.message });
         }
@@ -122,8 +123,9 @@ const Signup = () => {
       const data = await authAPI.register(skipData);
       
       if (data.success) {
-        localStorage.setItem('authToken', data.data.token);
-        navigate('/dashboard');
+       navigate('/verify-email', {
+  state: { email: formData.email, resendNow: data.data?.emailSent === false }
+});
       } else {
         setErrors({ submit: data.message });
       }
@@ -222,6 +224,7 @@ const Signup = () => {
             </div>
           )}
           
+          
           {/* Step Content */}
           {currentStep === 1 ? (
             <SignupStep1
@@ -240,8 +243,10 @@ const Signup = () => {
               onSkip={handleStep2Skip}
               isLoading={isLoading}
             />
+            
           )}
         </div>
+        
       </div>
     </div>
   );

@@ -1,6 +1,10 @@
 // API configuration and utility functions
 const API_BASE_URL = (import.meta.env.VITE_API_URL || 'https://safeher-indiasafeher-india-backend.onrender.com/api').replace(/\/+$/, '');
 
+
+
+
+
 // Generic API request function
 export const apiRequest = async (endpoint, options = {}) => {
   // Ensure endpoint starts with a slash
@@ -57,6 +61,15 @@ export const authAPI = {
   getCurrentUser: () => apiRequest('/auth/me'),
   
   logout: () => apiRequest('/auth/logout', { method: 'POST' }),
+    verifyEmail: (payload) => apiRequest('/auth/verify-email', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
+
+  resendOtp: (payload) => apiRequest('/auth/resend-otp', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  }),
 };
 
 export const guardianAPI = {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import VerifyEmail from '../pages/VerifyEmail';
 
 // Layouts
 import Navbar from '../components/Layout/Navbar';
@@ -50,7 +51,8 @@ export default function AppRouter() {
                 {/* Public Routes */}
                 <Route path="/" element={<StandardLayout><Landing /></StandardLayout>} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+                <Route path="/signup" element={<Signup/>} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
 
                 {/* Protected Routes */}
                 <Route path="/dashboard" element={<PrivateRoute><StandardLayout><Dashboard /></StandardLayout></PrivateRoute>} />
