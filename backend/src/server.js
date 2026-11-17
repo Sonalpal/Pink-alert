@@ -63,6 +63,7 @@ app.use('/api/locations', locationRoutes);
 app.use('/api/guardians', guardianRoutes);
 app.use('/api/sos', sosRoutes);
 app.use('/api/activities', activityRoutes);
+app.use('/api/guardians', require('./routes/guardianRoutes'));
 
 // Health Check
 app.get('/api/health', (req, res) => {

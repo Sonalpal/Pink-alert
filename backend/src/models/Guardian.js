@@ -13,11 +13,18 @@ const guardianSchema = new mongoose.Schema({
         minlength: [2, 'Guardian name must be at least 2 characters'],
         maxlength: [50, 'Guardian name cannot exceed 50 characters']
     },
+    guardianEmail: {
+        type: String,
+        required: [true, 'Guardian email is required'],
+        trim: true,
+        lowercase: true,
+        match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address']
+    },
     guardianPhone: {
         type: String,
-        required: [true, 'Guardian phone is required'],
         trim: true,
         match: [/^\d{10}$/, 'Phone number must be exactly 10 digits']
+        // now optional: email is the verified channel
     },
     relationship: {
         type: String,
@@ -37,14 +44,29 @@ const guardianSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    verifiedAt: {
+        type: Date
+    },
     verificationSentAt: {
         type: Date
+    },
+    // Only the hash is stored, never the raw token
+    verifyTokenHash: {
+        type: String,
+        select: false
+    },
+    verifyTokenExpires: {
+        type: Date,
+        select: false
     }
 });
 
-// Index for efficient queries
 guardianSchema.index({ userId: 1 });
 guardianSchema.index({ status: 1 });
+// One guardian email per user (blocks duplicates)
+guardianSchema.index({ userId: 1, guardianEmail: 1 }, { unique: true });
+// Fast lookup when the guardian clicks the link
+guardianSchema.index({ verifyTokenHash: 1 });
 
 const Guardian = mongoose.model('Guardian', guardianSchema);
 module.exports = Guardian;

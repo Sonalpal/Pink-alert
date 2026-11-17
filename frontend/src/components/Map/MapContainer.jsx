@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer as LeafletMap, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import Routing from './Routing';
 
-// Fix custom markers styling since Leaflet adds hardcoded background and border
 const customMarkerStyle = `
   .custom-leaflet-marker {
     background: transparent !important;
@@ -23,7 +23,6 @@ const createIcon = (type) => {
         iconName = 'local_hospital';
         colorClass = 'text-[#DC2626]';
     } else {
-        // Safezone / Crowd
         bgColor = 'bg-[#8B4A6A]/10 border-[#8B4A6A]/20';
         iconName = 'home';
         colorClass = 'text-[#8B4A6A]';
@@ -63,6 +62,8 @@ function MapZoomController({ center }) {
 }
 
 export default function CustomMapContainer({ location, pois }) {
+    const [destination, setDestination] = useState(null);
+
     return (
         <>
             <style>{customMarkerStyle}</style>
@@ -70,8 +71,9 @@ export default function CustomMapContainer({ location, pois }) {
                 <LeafletMap center={location} zoom={14} style={{ height: '100%', width: '100%' }} zoomControl={true}>
                     <MapZoomController center={location} />
                     <TileLayer
-                        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; OpenStreetMap contributors'
+                        maxZoom={19}
                     />
 
                     <Marker position={location} icon={userIcon}>
@@ -83,12 +85,41 @@ export default function CustomMapContainer({ location, pois }) {
                             <Popup className="font-body shadow-sm border-none rounded-xl">
                                 <div className="text-center p-1">
                                     <h4 className="font-serif font-bold text-on-surface text-[14px] mb-1">{poi.name}</h4>
-                                    <p className="text-[10px] uppercase text-on-surface-variant font-bold">{poi.type}</p>
+                                    <p className="text-[10px] uppercase text-on-surface-variant font-bold">
+                                        {poi.type} {poi.distance != null && `• ${poi.distance} km`}
+                                    </p>
+                                    <button
+                                        className="route-btn"
+                                        onClick={() => setDestination(poi)}
+                                    >
+                                        Show route
+                                    </button>
+                                    {poi.googleMapsUrl && (
+                                        <a
+                                            className="gmaps-link"
+                                            href={poi.googleMapsUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            Open in Google Maps
+                                        </a>
+                                    )}
                                 </div>
                             </Popup>
                         </Marker>
                     ))}
+
+                    <Routing from={location} to={destination} />
                 </LeafletMap>
+
+                {destination && (
+                    <button
+                        className="clear-route-btn"
+                        onClick={() => setDestination(null)}
+                    >
+                        Clear route
+                    </button>
+                )}
             </div>
         </>
     );
